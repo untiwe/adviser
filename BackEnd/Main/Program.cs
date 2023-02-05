@@ -3,8 +3,9 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(5000);
 });
-var app = builder.Build();
 
+var app = builder.Build();
+app.UseStaticFiles();
 app.MapGet("/", () => "Hello World!");
 
 app.Run();
