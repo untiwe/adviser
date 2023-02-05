@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Main" id="Project-1019" database="PostgreSQL" >
+	<schema name="main" >
+		<table name="roles" prior="tbl" >
+			<column name="id" type="smallserial" jt="5" mandatory="y" />
+			<column name="rolename" type="char" length="20" jt="1" mandatory="y" />
+			<index name="unq_roles_id" unique="UNIQUE_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="users" prior="tbl" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="login" type="char" length="30" jt="1" mandatory="y" />
+			<column name="passwordhash" type="text" jt="12" mandatory="y" />
+			<column name="rolesid" prior="roleid" type="smallint" jt="5" />
+			<index name="pk_users" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_users_roles" to_schema="main" to_table="roles" >
+				<fk_column name="rolesid" pk="id" />
+			</fk>
+		</table>
+	</schema>
+	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" useSystemProxy="false" />
+	<layout name="Default Layout" id="Layout-2084" show_relation="columns" >
+		<entity schema="main" name="roles" color="3986C1" x="336" y="80" />
+		<entity schema="main" name="users" color="C1D8EE" x="48" y="80" />
+		<group name="Group" color="C4E0F9" >
+			<entity schema="main" name="roles" />
+			<entity schema="main" name="users" />
+		</group>
+		<script name="SQL_Editor" id="Editor-e87" language="SQL" >
+			<string><![CDATA[CREATE SCHEMA IF NOT EXISTS main;
+
+CREATE  TABLE main.users ( 
+	id                   integer  NOT NULL  ,
+	login                char(30)  NOT NULL  ,
+	passwordhash         text  NOT NULL  ,
+	CONSTRAINT pk_users PRIMARY KEY ( id )
+ );
+]]></string>
+		</script>
+		<script name="SQL_Editor_001" id="Editor-22b5" language="SQL" >
+			<string><![CDATA[CREATE SCHEMA IF NOT EXISTS main;
+
+CREATE  TABLE main.roles ( 
+	id                   smallserial  NOT NULL  ,
+	rolename             char(20)  NOT NULL  ,
+	CONSTRAINT unq_roles_id UNIQUE ( id ) 
+ );
+
+CREATE  TABLE main.users ( 
+	id                   serial  NOT NULL  ,
+	login                char(30)  NOT NULL  ,
+	passwordhash         text  NOT NULL  ,
+	roleid               smallint    ,
+	CONSTRAINT pk_users PRIMARY KEY ( id )
+ );
+
+ALTER TABLE main.users ADD CONSTRAINT fk_users_roles FOREIGN KEY ( roleid ) REFERENCES main.roles( id );
+]]></string>
+		</script>
+		<script name="users" id="Editor-1cfe" language="SQL" >
+			<string><![CDATA[SELECT
+	id, login, passwordhash
+FROM
+	main.users s;]]></string>
+		</script>
+		<browser id="Browse-2494" name="users_001" confirm_updates="y" >
+			<browse_table schema="main" entity="users" x="20" y="20" width="400" height="300" />
+		</browser>
+	</layout>
+</project>
