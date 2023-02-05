@@ -1,0 +1,17 @@
+version: '3.7'
+networks:
+  app:
+    driver: bridge
+services:
+  mainDB:
+    image: postgres:latest
+    container_name: mainDB
+    ports:
+      - 5100:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Data:/var/lib/postgresql/data
+      - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Init:/docker-entrypoint-initdb.d
+
+
