@@ -6,15 +6,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 [Route("api/[controller]/[action]")]
 public class AuthController : Controller
 {
-    private readonly Auth _auth;
+    private readonly IAuth _auth;
 
-    public AuthController(Auth auth)
+    public AuthController(IAuth auth)
     {
         _auth = auth;
     }
@@ -22,6 +23,11 @@ public class AuthController : Controller
     [HttpGet()]
     public string Index()
     {
+        var g = HttpContext.User.Identities;
+        foreach(var identity in g)
+        {
+            Debug.WriteLine(identity.Claims.ToString());
+        }
         return $"Hello";
     }
 

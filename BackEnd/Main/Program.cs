@@ -1,10 +1,10 @@
-using Main.Middleware;
 using Main.models;
 using Main.Services;
 using Main.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.ConfigureKestrel(options =>
@@ -36,6 +36,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
         // валидация ключа безопасности
         ValidateIssuerSigningKey = true,
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        //убираем требование "Bearer " с коротого начинается токен по умолчнию
+        OnMessageReceived = context =>
+        {
+            string authorizationToken = context.Request.Headers["Authorization"];
+            if (string.IsNullOrEmpty(authorizationToken))
+                context.NoResult();
+            else
+                context.Token = authorizationToken;
+
+            return Task.CompletedTask;
+        }
     };
 });
 builder.Services.AddAuthorization();
@@ -72,7 +87,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddScoped<Auth>();
+builder.Services.AddScoped<IAuth, Auth>();
 
 var app = builder.Build();
 
@@ -87,7 +102,6 @@ if (app.Environment.IsDevelopment())
 }
 
 
-//app.UseMiddleware<TokenMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
