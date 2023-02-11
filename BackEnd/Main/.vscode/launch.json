@@ -13,11 +13,11 @@
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
-            "serverReadyAction": {
-                "pattern": ".",
-                "uriFormat": "http://localhost:5000",
-                "action": "openExternally"  
-            },
+            // "serverReadyAction": {
+            //     "pattern": ".",
+            //     "uriFormat": "http://localhost:5000",
+            //     "action": "openExternally"  
+            // },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
