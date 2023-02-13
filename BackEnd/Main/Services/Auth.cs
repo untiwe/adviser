@@ -1,5 +1,4 @@
 ﻿using Main.Exceptions;
-using Main.models;
 using Main.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

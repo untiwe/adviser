@@ -1,4 +1,4 @@
-using Main.models;
+using Main;
 using Main.Services;
 using Main.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
