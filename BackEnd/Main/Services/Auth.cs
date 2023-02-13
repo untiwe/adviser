@@ -21,20 +21,17 @@ public class Auth : IAuth
     {
         var identity = GetIdentity(username, password);
         if (identity == null)
-        {
-            //return BadRequest(new { errorText = "Invalid username or password." });
-            throw new AuthException("Неверный логин или пароль");
-        }
+           throw new AuthException("Неверный логин или пароль");
 
         var now = DateTime.UtcNow;
         // создаем JWT-токен
         var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
+                issuer: JWTOptions.ISSUER,
+                audience: JWTOptions.AUDIENCE,
                 notBefore: now,
                 claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                expires: now.Add(TimeSpan.FromMinutes(JWTOptions.LIFETIME)),
+                signingCredentials: new SigningCredentials(JWTOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
         var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
         return encodedJwt;
     }

@@ -20,20 +20,6 @@ public class AuthController : Controller
         _auth = auth;
     }
 
-    [HttpGet()]
-    public string Index()
-    {
-        var g = HttpContext.User.Identities;
-        foreach(var identity in g)
-        {
-            Debug.WriteLine(identity.Claims.ToString());
-        }
-        return $"Hello";
-    }
-
-
-
-
     [HttpPost("/GetToken")]
     public IActionResult GetToken(string login, string password)
     {
@@ -48,19 +34,11 @@ public class AuthController : Controller
         }
 
     }
+
     [Authorize]
-    [HttpGet("getlogin")]
-    public IActionResult GetLogin()
+    [HttpGet]
+    public IActionResult testc()
     {
-        return Ok($"Ваш логин: {User.Identity.Name}");
+        return NoContent();
     }
-
-    [Authorize(Roles = "admin")]
-    [HttpGet("getrole")]
-    public IActionResult GetRole()
-    {
-        return Ok("Ваша роль: администратор");
-    }
-
-
 }

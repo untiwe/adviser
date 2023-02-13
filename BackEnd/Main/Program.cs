@@ -4,7 +4,6 @@ using Main.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.ConfigureKestrel(options =>
@@ -23,19 +22,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         // укзывает, будет ли валидироваться издатель при валидации токена
         ValidateIssuer = true,
         // строка, представляющая издателя
-        ValidIssuer = AuthOptions.ISSUER,
+        ValidIssuer = JWTOptions.ISSUER,
 
         // будет ли валидироваться потребитель токена
         ValidateAudience = true,
         // установка потребителя токена
-        ValidAudience = AuthOptions.AUDIENCE,
+        ValidAudience = JWTOptions.AUDIENCE,
         // будет ли валидироваться время существования
         ValidateLifetime = true,
 
         // установка ключа безопасности
-        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+        IssuerSigningKey = JWTOptions.GetSymmetricSecurityKey(),
         // валидация ключа безопасности
-        ValidateIssuerSigningKey = true,
+        ValidateIssuerSigningKey = true
     };
 
     options.Events = new JwtBearerEvents
@@ -99,13 +98,10 @@ if (app.Environment.IsDevelopment())
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             options.RoutePrefix = string.Empty;
         });
-}
-
-
-if (app.Environment.IsDevelopment())
-{
     app.UseDeveloperExceptionPage();
 }
+
+
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
