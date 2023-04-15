@@ -1,16 +1,17 @@
-using Main;
+using Main.Models;
+using Main.Options;
 using Main.Services;
 using Main.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(5000);
+    options.ListenLocalhost(5000);
 });
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -36,7 +37,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         // валидация ключа безопасности
         ValidateIssuerSigningKey = true
     };
-
     options.Events = new JwtBearerEvents
     {
         //убираем требование "Bearer " с коротого начинается токен по умолчнию
@@ -51,6 +51,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             return Task.CompletedTask;
         }
     };
+
 });
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
@@ -86,12 +87,15 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddDbContext<DBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddScoped<IAuth, Auth>();
+builder.Services.AddScoped<IPasswordManager, PasswordManager>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+
     app.UseSwagger();
     app.UseSwaggerUI(options =>
         {
@@ -99,7 +103,7 @@ if (app.Environment.IsDevelopment())
             options.RoutePrefix = string.Empty;
         });
     app.UseDeveloperExceptionPage();
-}
+
 
 
 app.UseStaticFiles();

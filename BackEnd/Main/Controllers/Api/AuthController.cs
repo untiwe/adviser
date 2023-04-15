@@ -1,14 +1,12 @@
+using Main.Contracts;
 using Main.Exceptions;
-using Main.models;
-using Main.Services;
 using Main.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using System.Collections;
 using System.Data;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 [Route("api/[controller]/[action]")]
 public class AuthController : Controller
@@ -20,7 +18,7 @@ public class AuthController : Controller
         _auth = auth;
     }
 
-    [HttpPost("/GetToken")]
+    [HttpPost]
     public IActionResult GetToken(string login, string password)
     {
         try
@@ -35,10 +33,35 @@ public class AuthController : Controller
 
     }
 
-    [Authorize]
-    [HttpGet]
-    public IActionResult testc()
+    [HttpPost]
+    public async Task<IActionResult> RgisterNewUser(RegisterUserDTO registerUser)
     {
-        return NoContent();
+        try
+        {
+            await _auth.RegisterUserAsync(registerUser);
+        }
+        catch (AuthException e)
+        {
+            return BadRequest(e.Message);
+        }
+        return Ok();
     }
+
+    [Authorize(Roles = "admin")]
+    [HttpPost]
+    public async Task<IActionResult> ChangeRoleUser(ChangeRoleUser changeRole)
+    {
+        try
+        {
+            await _auth.ChangeRoleUserAsync(changeRole);
+        }
+        catch (NullReferenceException e)
+        {
+            return BadRequest(e.Message);
+        }
+        return Ok();
+    }
+
+
+
 }

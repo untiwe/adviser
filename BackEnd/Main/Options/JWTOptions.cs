@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Main
+namespace Main.Options
 {
     public class JWTOptions
     {
