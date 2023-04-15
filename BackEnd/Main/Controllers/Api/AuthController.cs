@@ -2,14 +2,13 @@ using Main.Contracts;
 using Main.Exceptions;
 using Main.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
-using System.Data;
-using System.Security.Cryptography;
-using System.Text;
 
+//[EnableCors]
+[ApiController]
 [Route("api/[controller]/[action]")]
-public class AuthController : Controller
+public class AuthController : ControllerBase
 {
     private readonly IAuth _auth;
 
@@ -18,12 +17,13 @@ public class AuthController : Controller
         _auth = auth;
     }
 
+    
     [HttpPost]
-    public IActionResult GetToken(string login, string password)
+    public IActionResult GetToken(GetTockenDTO userToken)
     {
         try
         {
-            var token = _auth.GetToken(login, password);
+            var token = _auth.GetToken(userToken);
             return Ok(token);
         }
         catch (AuthException e)

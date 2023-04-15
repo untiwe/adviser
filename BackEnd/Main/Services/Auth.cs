@@ -21,9 +21,10 @@ public class Auth : IAuth
         _passwordManager = passwordManager;
     }
 
-    public string GetToken(string username, string password)
+    public string GetToken(GetTockenDTO userToken)
     {
-
+        var username = userToken.Login;
+        var password = userToken.Password;
 
         var identity = GetIdentity(username, password);
         if (identity == null)
