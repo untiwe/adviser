@@ -13,5 +13,19 @@ services:
     volumes:
       - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Data:/var/lib/postgresql/data
       - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Init:/docker-entrypoint-initdb.d
+    networks:
+      - app
 
-
+  web:
+    image: main:latest
+    container_name: main
+    networks:
+      - app
+    environment:
+      - ASP_JWTKey=ASPASPASPASPASPASPASP
+      - ConnectionString=Server=mainDB;User Id=postgres;Password=postgres;Port=5432;Database=postgres;
+    ports:
+      - 5000:5000
+    depends_on:
+      - mainDB
+   
