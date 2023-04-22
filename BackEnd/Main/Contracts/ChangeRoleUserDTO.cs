@@ -1,6 +1,6 @@
 ﻿namespace Main.Contracts
 {
-    public class ChangeRoleUser
+    public class ChangeRoleUserDTO
     {
         public string User { get; set; }
         public string Role { get; set; }

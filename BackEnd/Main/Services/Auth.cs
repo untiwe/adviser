@@ -62,7 +62,8 @@ public class Auth : IAuth
         await _dbContext.SaveChangesAsync();
     }
     
-    public async Task ChangeRoleUserAsync(ChangeRoleUser changeRole)
+
+    public async Task ChangeRoleUserAsync(ChangeRoleUserDTO changeRole)
     {
         var persone = await _dbContext.Users.FirstOrDefaultAsync(u => u.Login == changeRole.User);
         if (persone == null)

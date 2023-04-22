@@ -1,19 +1,24 @@
+using FluentValidation;
+using FluentValidation.Results;
 using Main.Contracts;
 using Main.Exceptions;
 using Main.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
 public class AuthController : ControllerBase
 {
     private readonly IAuth _auth;
+    private IValidator<ChangeRoleUserDTO> _validatorChangeRole;
 
-    public AuthController(IAuth auth)
+    public AuthController(IAuth auth, IValidator<ChangeRoleUserDTO> validatorChangeRole)
     {
         _auth = auth;
+        _validatorChangeRole = validatorChangeRole;
     }
 
     
@@ -48,9 +53,13 @@ public class AuthController : ControllerBase
 
     [Authorize(Roles = "admin")]
     [HttpPost]
-    public async Task<IActionResult> ChangeRoleUser(ChangeRoleUser changeRole)
+    public async Task<IActionResult> ChangeRoleUser(ChangeRoleUserDTO changeRole)
     {
-        try
+        ValidationResult result = await _validatorChangeRole.ValidateAsync(changeRole);
+        if (!result.IsValid)
+            return BadRequest(result.Errors);
+
+            try
         {
             await _auth.ChangeRoleUserAsync(changeRole);
         }
