@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
-//[EnableCors]
 [ApiController]
 [Route("api/[controller]/[action]")]
 public class AuthController : ControllerBase
@@ -62,6 +61,13 @@ public class AuthController : ControllerBase
         return Ok();
     }
 
+
+    [HttpGet]
+    public IActionResult GelAllUsers()
+    {
+            return Ok(_auth.GetAllUsers());
+      
+    }
 
 
 }

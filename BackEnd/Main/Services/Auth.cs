@@ -73,6 +73,11 @@ public class Auth : IAuth
         await _dbContext.SaveChangesAsync();
     }
 
+    public List<User> GetAllUsers()
+    {
+        return _dbContext.Users.ToList();
+    }
+
     private ClaimsIdentity GetIdentity(string username, string password)
     {
         var person = _dbContext.Users.FirstOrDefault(u => u.Login == username);
