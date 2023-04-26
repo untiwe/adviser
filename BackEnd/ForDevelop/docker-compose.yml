@@ -9,7 +9,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Data:/var/lib/postgresql/data
+      - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Data:/var/lib/postgresql/data #вот это работает
       - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Init:/docker-entrypoint-initdb.d
 
   web:
@@ -18,6 +18,8 @@ services:
     environment:
       - ASP_JWTKey=ASPASPASPASPASPASPASP
       - ConnectionString=Server=mainDB;User Id=postgres;Password=postgres;Port=5432;Database=postgres;
+    volumes:
+      - E:\arhive\Web\adviser\BackEnd\wwwroot:/bin/wwwroot #не работает вот это
     ports:
       - 5000:5000
     depends_on:

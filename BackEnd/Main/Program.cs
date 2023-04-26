@@ -1,19 +1,13 @@
+using FluentValidation;
 using Main.Models;
 using Main.Options;
 using Main.Services;
 using Main.Services.Interfaces;
+using Main.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Builder;
-using Main.Validation;
-using FluentValidation;
-using System;
-using Main.Contracts;
 
 internal class Program
 {
