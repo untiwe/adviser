@@ -12,6 +12,8 @@ USER appuser
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["./Main/Main.csproj", "./"]
+#Копируем папку с protos на уровень выше так же, как это указано csproj
+COPY ["./Protos", "../Protos"]
 RUN dotnet restore "Main.csproj"
 COPY ./Main .
 WORKDIR "/src/."
