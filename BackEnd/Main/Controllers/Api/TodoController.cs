@@ -7,11 +7,21 @@ namespace Main.Controllers.Api
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class TodoController : ControllerBase
+
     {
-        [HttpPost]
-        public async  Task<IActionResult> Index(string name)
+        private readonly string _todoUrl;
+        public TodoController()
         {
-            using var channel = GrpcChannel.ForAddress("http://localhost:5001");
+            _todoUrl = Environment.GetEnvironmentVariable("TodoServiseURL");
+            if (string.IsNullOrEmpty(_todoUrl))
+            {
+                throw new ArgumentException("Нет URL для подключения к сервису");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(string name)
+        {
+            using var channel = GrpcChannel.ForAddress(_todoUrl);
             var client = new TodoService.TodoServiceClient(channel);
             var reply = await client.SayHelloAsync(new HelloRequest { Name = name });
             return Ok(reply);

@@ -1,7 +1,5 @@
 version: '3.7'
 
-volumes:
-  storage:
 
 services:
   #основной сервис, с авторизацией пользователей
@@ -22,8 +20,9 @@ services:
     environment:
       - ASP_JWTKey=ASPASPASPASPASPASPASP
       - ConnectionString=Server=mainDB;User Id=postgres;Password=postgres;Port=5432;Database=postgres;
+      - TodoServiseURL=http://todo:5001
     volumes:
-      - storage:/bin/wwwroot 
+      - storage:/app/wwwroot 
     ports:
       - 5000:5000
     depends_on:
@@ -47,11 +46,14 @@ services:
     environment:
       - ConnectionString=Server=todoDB;User Id=postgres;Password=postgres;Port=5432;Database=postgres;
     volumes:
-      - storage:/bin/wwwroot
+      - storage:/app/wwwroot
     ports:
       - 5001:5001
     depends_on:
       - todoDB
+
+volumes:
+  storage:
 
 
   
