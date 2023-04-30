@@ -1,6 +1,8 @@
 version: '3.7'
 
+
 services:
+  #основной сервис, с авторизацией пользователей
   mainDB:
     image: postgres:latest
     container_name: mainDB
@@ -9,7 +11,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Data:/var/lib/postgresql/data #вот это работает
+      - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Data:/var/lib/postgresql/data
       - E:\arhive\Web\adviser\BackEnd\DataBases\Main\Init:/docker-entrypoint-initdb.d
 
   web:
@@ -18,10 +20,41 @@ services:
     environment:
       - ASP_JWTKey=ASPASPASPASPASPASPASP
       - ConnectionString=Server=mainDB;User Id=postgres;Password=postgres;Port=5432;Database=postgres;
+      - TodoServiseURL=http://todo:5001
     volumes:
-      - E:\arhive\Web\adviser\BackEnd\wwwroot:/bin/wwwroot #не работает вот это
+      - storage:/app/wwwroot 
     ports:
       - 5000:5000
     depends_on:
       - mainDB
+
+  #сервис для дел пользователей
+  todoDB:
+    image: postgres:latest
+    container_name: todoDB
+    ports:
+      - 5101:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - E:\arhive\Web\adviser\BackEnd\DataBases\Todo\Data:/var/lib/postgresql/data
+      - E:\arhive\Web\adviser\BackEnd\DataBases\Todo\Init:/docker-entrypoint-initdb.d
+
+  todoService:
+    image: todo:latest
+    container_name: todo
+    environment:
+      - ConnectionString=Server=todoDB;User Id=postgres;Password=postgres;Port=5432;Database=postgres;
+    volumes:
+      - storage:/app/wwwroot
+    ports:
+      - 5001:5001
+    depends_on:
+      - todoDB
+
+volumes:
+  storage:
+
+
+  
    
