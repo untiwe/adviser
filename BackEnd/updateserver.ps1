@@ -18,7 +18,7 @@ $FolderServiseName = $ServiseName.substring(0,1).toupper()+$ServiseName.substrin
 $pathFolder = "E:\arhive\Web\adviser\BackEnd"
 cd $pathFolder;
 
-docker build -f ./${FolderServiseName}/dockerfile -t ${ServiseName}:latest .;
+docker build -f ./${FolderServiseName}/dockerfile -t ${ServiseName}:latest --build-arg FolderServiseName=${FolderServiseName} .;
 docker save -o "${ServiseName}.tar" $ServiseName;
 pscp -pw ${Env:WebUserPwd} "${ServiseName}.tar"  ${Env:WebUserName}@${Env:WebUserIP}:"/web-root/";
 plink -batch -ssh ${Env:WebUserName}@${Env:WebUserIP} -pw ${Env:WebUserPwd} "bash /web-root/updateserver.sh $ServiseName";
