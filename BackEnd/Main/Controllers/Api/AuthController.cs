@@ -23,12 +23,12 @@ public class AuthController : ControllerBase
 
     
     [HttpPost]
-    public IActionResult GetToken(GetTockenDTO userToken)
+    public IActionResult Login(GetTockenDTO userToken)
     {
         try
         {
             var token = _auth.GetToken(userToken);
-            return Ok(token);
+            return Ok(new {userToken.Login, token });
         }
         catch (AuthException e)
         {
