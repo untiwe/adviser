@@ -3,7 +3,8 @@
     "Todo": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionString": "Server=localhost;User Id=postgres;Password=postgres;Port=5101;Database=postgres;"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5032;https://localhost:7293"
