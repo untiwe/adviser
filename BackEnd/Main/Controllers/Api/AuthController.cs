@@ -1,6 +1,6 @@
 using FluentValidation;
 using FluentValidation.Results;
-using Main.Contracts;
+using Main.Contracts.AuthController;
 using Main.Exceptions;
 using Main.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;

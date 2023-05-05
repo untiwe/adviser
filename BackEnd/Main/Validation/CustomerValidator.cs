@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Main.Contracts;
+using Main.Contracts.AuthController;
 
 namespace Main.Validation;
 
