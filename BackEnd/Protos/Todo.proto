@@ -7,15 +7,15 @@ package TodoPackage;
 // The greeting service definition.
 service TodoService {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply);
+  rpc AddnewTodo (AddnewTodoRequest) returns (AddnewTodoReply);
 }
 
 // The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message AddnewTodoRequest {
+  string text = 1;
+  int32 userid = 2;
 }
 
 // The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+message AddnewTodoReply {
 }

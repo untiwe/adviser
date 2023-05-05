@@ -1,4 +1,5 @@
 using Grpc.Core;
+using Microsoft.AspNetCore.Mvc;
 using Todo;
 using Todo.Models;
 
@@ -14,29 +15,26 @@ namespace Todo.Services
             _dbContext = dBContext;
         }
 
-        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+        public override Task<AddnewTodoReply> AddnewTodo(AddnewTodoRequest request, ServerCallContext context)
         {
+
             var user = _dbContext.Users.FirstOrDefault(u => u.UserId == 2);
 
             if (user == null)
-                user = new MiniUsers() { UserId = 2 };
+                user = new MiniUsers() { UserId = request.Userid};
 
             Tasks task = new Tasks()
             {
                 CreatedDate = DateTime.UtcNow,
-                Text = "Hellow",
+                Text = request.Text,
                 Owner = user,
             };
 
             _dbContext.Tasks.Add(task);
             _dbContext.SaveChanges();
 
-            //var x = _dbContext.Tasks.First();
 
-            return Task.FromResult(new HelloReply
-            {
-                Message = "Hello " + request.Name
-            });
+            return Task.FromResult(new AddnewTodoReply());
         }
     }
 }
