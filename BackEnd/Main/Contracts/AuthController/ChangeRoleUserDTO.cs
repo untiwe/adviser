@@ -1,4 +1,4 @@
-﻿namespace Main.Contracts
+﻿namespace Main.Contracts.AuthController
 {
     public class ChangeRoleUserDTO
     {
