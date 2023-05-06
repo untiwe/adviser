@@ -1,4 +1,4 @@
-﻿using Main.Contracts;
+﻿using Main.Contracts.AuthController;
 
 namespace Main.Services.Interfaces;
 

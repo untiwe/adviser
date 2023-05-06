@@ -2,20 +2,46 @@
 
 option csharp_namespace = "Todo";
 
+import "google/protobuf/duration.proto"; 
+import "google/protobuf/timestamp.proto";
+
 package TodoPackage;
 
 // The greeting service definition.
 service TodoService {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply);
+  rpc AddNewTodo (AddNewTodoRequest) returns (AddNewTodoReply);
+  rpc GetListTodoUser (GetListTodoTodoRequest) returns (GetListTodoReply);
 }
 
 // The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message AddNewTodoRequest {
+  string text = 1;
+  int32 userid = 2;
 }
 
 // The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+message AddNewTodoReply {
+}
+
+message GetListTodoTodoRequest{
+  int32 userid = 1;
+}
+
+message GetListTodoReply {
+  repeated TodoModel todolist = 1;
+}
+
+message TodoModel{
+  int32 id = 1;
+  string text = 2;
+  string createdTime = 3;
+  string updatedTime = 4;
+  string deleteTime = 5;
+  string completeTime = 6;
+}
+
+message MiniUser{
+  int32 id = 1;
+  int32 userid = 2;
 }

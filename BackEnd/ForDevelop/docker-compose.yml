@@ -22,13 +22,13 @@ services:
       - ConnectionString=Server=mainDB;User Id=postgres;Password=postgres;Port=5432;Database=postgres;
       - TodoServiseURL=http://todo:5001
     volumes:
-      - storage:/app/wwwroot 
+      - E:\arhive\Web\adviser\BackEnd\ForDevelop\wwwroot\:/app/wwwroot
     ports:
       - 5000:5000
     depends_on:
       - mainDB
 
-  #сервис для дел пользователей
+  # сервис для дел пользователей
   todoDB:
     image: postgres:latest
     container_name: todoDB
@@ -46,14 +46,12 @@ services:
     environment:
       - ConnectionString=Server=todoDB;User Id=postgres;Password=postgres;Port=5432;Database=postgres;
     volumes:
-      - storage:/app/wwwroot
+      - E:\arhive\Web\adviser\BackEnd\ForDevelop\wwwroot\:/app/wwwroot
     ports:
       - 5001:5001
     depends_on:
       - todoDB
 
-volumes:
-  storage:
 
 
   

@@ -1,4 +1,4 @@
-﻿using Main.Contracts;
+﻿using Main.Contracts.AuthController;
 using Main.Exceptions;
 using Main.Models;
 using Main.Options;

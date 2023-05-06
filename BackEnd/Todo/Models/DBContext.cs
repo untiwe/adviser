@@ -9,6 +9,7 @@ namespace Todo.Models
         base(opt)
         { }
 
-        public DbSet<Tasks> Users { get; set; }
+        public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<MiniUsers> Users { get; set; }
     }
 }

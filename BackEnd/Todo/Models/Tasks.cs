@@ -4,6 +4,11 @@
     {
         public int Id { get; set; }
         public string Text { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set;}
+        public DateTime DeleteTime { get; set; }
+        public DateTime СompleteTime { get; set; }
+        public MiniUsers Owner { get; set; }
 
     }
 }
