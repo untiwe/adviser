@@ -46,10 +46,10 @@ namespace Todo.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeleteTime")
+                    b.Property<DateTime>("DeleteTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("OwnerId")
@@ -59,7 +59,10 @@ namespace Todo.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdatedDate")
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("СompleteTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");

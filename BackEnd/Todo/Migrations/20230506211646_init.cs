@@ -32,9 +32,10 @@ namespace Todo.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Text = table.Column<string>(type: "text", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DeleteTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    СompleteTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     OwnerId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

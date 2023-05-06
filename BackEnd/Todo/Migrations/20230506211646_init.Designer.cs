@@ -12,7 +12,7 @@ using Todo.Models;
 namespace Todo.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20230505163743_init")]
+    [Migration("20230506211646_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -49,7 +49,7 @@ namespace Todo.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DeleteTime")
@@ -62,7 +62,10 @@ namespace Todo.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("СompleteTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
