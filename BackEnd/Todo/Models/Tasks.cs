@@ -7,7 +7,7 @@
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set;}
         public DateTime DeleteTime { get; set; }
-        public DateTime СompleteTime { get; set; }
+        public DateTime CompleteTime { get; set; }
         public MiniUsers Owner { get; set; }
 
     }

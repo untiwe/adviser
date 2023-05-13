@@ -13,7 +13,7 @@ namespace Todo.AutoMapper
             CreateMap<Tasks, TodoModel>()
                 .ForMember(model => model.CreatedTime, tasks => tasks.MapFrom(tasks => Format(tasks.CreatedTime)))
                 .ForMember(model => model.UpdatedTime, tasks => tasks.MapFrom(tasks => Format(tasks.UpdatedTime)))
-                .ForMember(model => model.CompleteTime, tasks => tasks.MapFrom(tasks => Format(tasks.СompleteTime)))
+                .ForMember(model => model.CompleteTime, tasks => tasks.MapFrom(tasks => Format(tasks.CompleteTime)))
                 .ForMember(model => model.DeleteTime, tasks => tasks.MapFrom(tasks => Format(tasks.DeleteTime)));
                 
 
