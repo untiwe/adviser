@@ -45,7 +45,36 @@ namespace Main.Controllers.Api
             using var _channel = GrpcChannel.ForAddress(_todoUrl);
             var client = new TodoService.TodoServiceClient(_channel);
             var todoList = await client.GetListTodoUserAsync(new GetListTodoTodoRequest { Userid = userid });
+            return Ok(todoList);
+        }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> UpdateTodo(string newTodoText, int todoId)
+        {
+            using var _channel = GrpcChannel.ForAddress(_todoUrl);
+            var client = new TodoService.TodoServiceClient(_channel);
+            var todoList = await client.UpdateTodoAsync(new UpdateTodoRequest { Text = newTodoText, Todoid = todoId });
+            return Ok(todoList);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> CompleteTodo(int todoId)
+        {
+            using var _channel = GrpcChannel.ForAddress(_todoUrl);
+            var client = new TodoService.TodoServiceClient(_channel);
+            var todoList = await client.CompleteTodoAsync(new TodoIdRequest { Id = todoId });
+            return Ok(todoList);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> DeleteTodo(int todoId)
+        {
+            using var _channel = GrpcChannel.ForAddress(_todoUrl);
+            var client = new TodoService.TodoServiceClient(_channel);
+            var todoList = await client.DeleteTodoAsync(new TodoIdRequest { Id = todoId });
             return Ok(todoList);
         }
 

@@ -2,7 +2,9 @@ using AutoMapper;
 using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Todo;
 using Todo.AutoMapper;
 using Todo.Models;
@@ -21,7 +23,7 @@ namespace Todo.Services
             _mapper = mapper;
         }
 
-        public override Task<AddNewTodoReply> AddNewTodo(AddNewTodoRequest request, ServerCallContext context)
+        public override Task<SpanMessageReply> AddNewTodo(AddNewTodoRequest request, ServerCallContext context)
         {
 
             var user = _dbContext.Users.FirstOrDefault(u => u.UserId == 1);
@@ -40,7 +42,7 @@ namespace Todo.Services
             _dbContext.SaveChanges();
 
 
-            return Task.FromResult(new AddNewTodoReply());
+            return Task.FromResult(new SpanMessageReply());
         }
 
         public override Task<GetListTodoReply> GetListTodoUser(GetListTodoTodoRequest request, ServerCallContext context)
@@ -50,6 +52,39 @@ namespace Todo.Services
             var GetListTodoReply = new GetListTodoReply();
             GetListTodoReply.Todolist.AddRange(todoes);
             return Task.FromResult(GetListTodoReply);
+        }
+
+        public override Task<SpanMessageReply> UpdateTodo(UpdateTodoRequest request, ServerCallContext context)
+        {
+            var task = GetTask(request.Todoid);
+            task.Text = request.Text;
+            task.UpdatedTime = DateTime.UtcNow;
+            _dbContext.SaveChanges();
+            return Task.FromResult(new SpanMessageReply());
+        }
+
+        public override Task<SpanMessageReply> CompleteTodo(TodoIdRequest request, ServerCallContext context)
+        {
+            var task = GetTask(request.Id);
+            task.CompleteTime = DateTime.UtcNow;
+            _dbContext.SaveChanges();
+            return Task.FromResult(new SpanMessageReply());
+        }
+
+        public override Task<SpanMessageReply> DeleteTodo(TodoIdRequest request, ServerCallContext context)
+        { 
+            var task = GetTask(request.Id);
+            task.DeleteTime = DateTime.UtcNow;
+            _dbContext.SaveChanges();
+            return Task.FromResult(new SpanMessageReply());
+        }
+
+        private Tasks GetTask(int taskId)
+        {
+            var task = _dbContext.Tasks.SingleOrDefault(task => task.Id == taskId);
+            if (task == null)
+                throw new ArgumentNullException("��� ������ � ����� id");
+            return task;
         }
     }
 }
